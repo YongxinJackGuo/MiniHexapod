@@ -24,16 +24,13 @@ Hexapod hexapod;
 void setup()
 {
 	hexapod.begin(115200);
-	pinMode(13, HIGH);
+	
 
 }
 
 // Add the main program code into the continuous loop() function
 void loop()
 {
-	digitalWrite(13, HIGH);
-	delay(2000);
-	digitalWrite(13, LOW);
-	delay(2000);
+	
 
 }
