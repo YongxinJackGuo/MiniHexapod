@@ -19,18 +19,21 @@
 
 // The setup() function runs once each time the micro-controller starts
 #include "MiniHexapod.h"
-Hexapod hexapod;
+Hexapod hexapod(1,2,3,4);
 
 void setup()
 {
-	hexapod.begin(115200);
-	
-
+	Serial.begin(115200);
+	pinMode(13, OUTPUT);
+	Serial.println("welcome to my zone....");
 }
 
 // Add the main program code into the continuous loop() function
 void loop()
 {
-	
+	float a[legNumber] = { 1,2,3,4,5,6 };
+	hexapod.setLegBase(a,a,a);
+	hexapod.printCoordinate(a,a,a,'s',5);    
+	delay(2000);
 
 }

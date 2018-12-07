@@ -5,15 +5,18 @@
 #include "MiniHexapod.h"
 #include "Arduino.h"
 #include "Math.h"
-#define legNumber 6
+#include "String.h"
 
 Hexapod::Hexapod(float coxa, float tibia, float bodyLength, float bodyWidth) {
-	geometrySetup(coxa, tibia, bodyLength, bodyWidth);
+	geometrySetup(coxa, tibia, bodyLength, bodyWidth);      //set up the geometric parameters: coxa, tibia, body length and width.
 }
 
 void Hexapod::setLegBase(float *legBaseX, float *legBaseY, float *legBaseZ) {
-	_legBaseX[] = legBaseX[];
+	// Copy the base arrays
+	_legBaseX = legBaseX;
 	_legBaseY = legBaseY;
+	_legBaseZ = legBaseZ;
+
 
 }
 void Hexapod::liftOff() {
@@ -22,15 +25,38 @@ void Hexapod::liftOff() {
 	angleConversion();
 }
 
-void Hexapod::begin(int baudRate) {
-	Serial.begin(baudRate);
+
+void Hexapod::printCoordinate(float *coord1, float *coord2, float *coord3, char a, int legIndex) {
+	String legArr[6] = { "Left Front", "Left Middle", "Left Rear", "Right Front", "Right Middle", "Right Rear" };
+	int endNumber;
+	int startNumber = 0;
+	switch (a) {
+		case 'a' :
+			endNumber = legNumber;
+			break;
+		case 's' :
+			startNumber = legIndex - 1;
+			endNumber = legIndex;
+			break;
+	}
+	for (int i = startNumber; i < endNumber; i++) {
+		Serial.println("----------");
+		Serial.print(legArr[i]);
+		Serial.println(":");
+		Serial.print("X: ");
+		Serial.println(coord1[i]);
+		Serial.print("Y: ");
+		Serial.println(coord2[i]);
+		Serial.print("Z: ");
+		Serial.println(coord3[i]);
+	}
 }
 
-void Hexapod::geometrySetup(float c, float t, float l, float w) {
-	_coxa = c;
-	_tibia = t;
-	_bodyLength = l;
-	_bodyWidth = w;
+void Hexapod::geometrySetup(float _coxa, float _tibia, float _bodyLength, float _bodyWidth) {
+	this -> _coxa = _coxa;
+	this -> _tibia = _tibia;
+	this -> _bodyLength = _bodyLength;
+	this -> _bodyWidth = _bodyWidth;
 }
 
 float Hexapod::getCoxa() {
